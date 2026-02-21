@@ -1,0 +1,11 @@
+.git
+.gitignore
+.DS_Store
+.env
+node_modules
+ui/node_modules
+ui/.next
+ui/.env.local
+backend
+docs
+

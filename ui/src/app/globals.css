@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070b14;
+  --foreground: #f3f6ff;
+  --card: #0f1525;
+  --muted: #8a93a8;
+  --accent: #7c8cff;
+  --accent-2: #35d3c0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background:
+    radial-gradient(circle at 10% 10%, #111b33 0%, transparent 36%),
+    radial-gradient(circle at 90% 90%, #152840 0%, transparent 32%),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.glass {
+  background: color-mix(in srgb, var(--card) 78%, #ffffff 6%);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}

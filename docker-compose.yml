@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go-webrtc-server
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      TURN_ENABLED: ${TURN_ENABLED:-false}
+      TURN_URLS: ${TURN_URLS:-}
+      TURN_USERNAME: ${TURN_USERNAME:-}
+      TURN_PASSWORD: ${TURN_PASSWORD:-}
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: go-webrtc-ui
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_BACKEND_HTTP_URL: "http://localhost:8080"
+      NEXT_PUBLIC_SIGNALING_WS_URL: "ws://localhost:8080/ws"
+      NEXT_PUBLIC_SIGNALING_TOKEN: ""
+    depends_on:
+      - server
+    restart: unless-stopped
+
+  coturn:
+    image: coturn/coturn:4.6.3
+    container_name: go-webrtc-coturn
+    profiles: ["turn"]
+    command:
+      - -n
+      - --fingerprint
+      - --lt-cred-mech
+      - --realm=${TURN_REALM:-webrtc-local}
+      - --user=${TURN_USERNAME:-testuser}:${TURN_PASSWORD:-testpassword}
+      - --listening-port=3478
+      - --min-port=49152
+      - --max-port=49200
+      - --no-cli
+      - --no-multicast-peers
+    ports:
+      - "3478:3478/tcp"
+      - "3478:3478/udp"
+      - "49152-49200:49152-49200/udp"
+    restart: unless-stopped
+
