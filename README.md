@@ -1,13 +1,13 @@
 # Go WebRTC Video Conf
 
-![](/img/join-room.png)
-![](/img/in-meet.png)
-
 Peer-to-peer video conferencing app built with:
 
 - Go signaling backend (`cmd/`, `internal/`)
 - Next.js frontend (`ui/`)
 - WebRTC for media transport
+
+![](/img/join-room.png)
+![](/img/in-meet.png)
 
 ## Project Structure
 
